@@ -2,6 +2,7 @@ import {Coordinate} from "./Coordinate";
 import {Direction} from "./Direction";
 import {format} from "util";
 import deepEqual = require("deep-equal");
+import {defaultCoreCipherList} from "constants";
 
 export class Position {
     private coordinate: Coordinate;
@@ -22,17 +23,18 @@ export class Position {
         }
     }
 
-    constructor(x: number, y: number, directionText: string) {
-        this.coordinate = new Coordinate(x, y);
+    constructor(coordinate: Coordinate, directionText: string) {
+        this.coordinate = new Coordinate(coordinate.x,coordinate.y);
         this.direction = this.parseDirection(directionText);
     }
 
     turnLeft(): Position {
-        return new Position(this.coordinate.x, this.coordinate.y, this.direction.turnLeft().toString())
+        // return new Position(this.coordinate.x, this.coordinate.y, this.direction.turnLeft().toString())
+        return new Position(this.coordinate, this.direction.turnLeft().toString())
     }
 
     turnRight(): Position {
-        return new Position(this.coordinate.x, this.coordinate.y, this.direction.turnRight().toString())
+        return new Position(this.coordinate, this.direction.turnRight().toString())
     }
 
     moveForward() {
@@ -47,7 +49,7 @@ export class Position {
         } else if (s === "WEST") {
             coordinate = this.coordinate.moveWest();
         }
-        return new Position(coordinate.x, coordinate.y, this.direction.toString());
+        return new Position(new Coordinate(coordinate.x,coordinate.y), this.direction.toString());
     }
 
     toString(): string {
